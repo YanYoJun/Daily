@@ -22,7 +22,7 @@
             android:background="#A54040"
             android:gravity="left|center_vertical"
             android:paddingLeft="10dp"
-            android:text="打卡"
+            android:text="打卡, 我以人格起誓, 数据正确"
             android:textColor="#ffffff"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"

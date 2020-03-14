@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnStartTask.setOnClickListener { TaskListActivity.start(this@MainActivity) }
         binding.recycleView.adapter = mAdapter
         binding.recycleView.layoutManager = LinearLayoutManager(this)
-        refreshData()
     }
 
     private fun refreshData() {
@@ -42,9 +41,17 @@ class MainActivity : AppCompatActivity() {
             val list = DailyDB.instance.getTaskDao().selectAll()
             mListTask.clear()
             mListTask.addAll(list)
+            mListTask.sortBy {
+                it.signTimes * 24 * 60 * 60 * 1000 + it.beginTime!!.time
+            }
             logcat("task list size:" + mListTask.size)
             runUI { mAdapter.notifyDataSetChanged() }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        refreshData()
     }
 
     inner class TaskListRecycleViewAdapter : RecyclerView.Adapter<TodayTaskViewHolder>() {
@@ -152,9 +159,9 @@ class MainActivity : AppCompatActivity() {
             } else {
                 builder.append("将超前" + (-offset) + "天\n")
             }
+            layoutBinding.tvNotes.text = builder.toString()
 
             val dialog = dialogBuilder.create()
-            dialog.setCanceledOnTouchOutside(false)
             dialog.show()
             layoutBinding.btnCancel.setOnClickListener { dialog.dismiss() }
             layoutBinding.btnSubmit.setOnClickListener {
