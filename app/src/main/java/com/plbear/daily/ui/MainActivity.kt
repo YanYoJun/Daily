@@ -1,7 +1,9 @@
 package com.plbear.daily.ui
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,7 +91,10 @@ class MainActivity : AppCompatActivity() {
                 this.set(Calendar.MILLISECOND, 0)
             }
             cal.add(Calendar.DAY_OF_YEAR, task.signTimes - 1)
-            holderBinding.tvLastSign.text = "上次打卡日期: " + Utils.dateToString(cal.time)
+            logcat("taskId:" + task.name)
+            logcat("time:" + cal.time)
+            logcat("time str:" + Utils.dateToString(cal.time))
+            holderBinding.tvLastSign.text = "上次打卡日期:${Utils.dateToString(cal.time)}"
 
             val now = Calendar.getInstance().apply {
                 this.set(Calendar.HOUR_OF_DAY, 0)
@@ -167,6 +172,8 @@ class MainActivity : AppCompatActivity() {
             layoutBinding.btnSubmit.setOnClickListener {
                 runIO {
                     task.signTimes++
+                    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    vibrator.vibrate(50)
                     DailyDB.instance.getTaskDao().update(task)
                     refreshData()
                 }

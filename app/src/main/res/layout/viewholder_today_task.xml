@@ -7,10 +7,6 @@
             name="task"
             type="com.plbear.daily.model.bean.Task" />
 
-        <variable
-            name="lastSignDate"
-            type="String" />
-
         <import type="android.view.View" />
 
         <import type="android.text.TextUtils" />
@@ -80,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="4dp"
-            android:text='@{"上次打卡日期: "+lastSignDate}'
+            android:text="上次打卡日期: "
             android:textColor="#B62626"
             android:textSize="16sp"
             android:textStyle="bold"
